@@ -4,11 +4,13 @@
 Catalog::Catalog() : currentId(INITIAL_ID) {}
 Catalog::~Catalog() = default;
 
-Catalog &Catalog::addProduct(Product product) {
-  product.setId(currentId++);
-  products.emplace(product.getId(), product);
+unsigned long Catalog::addProduct(Product const &product) {
+  Product newProduct(product);
+  newProduct.setId(currentId++);
 
-  return *this;
+  products.emplace(newProduct.getId(), newProduct);
+
+  return newProduct.getId();
 }
 
 Catalog::CatalogMap Catalog::getProducts() const { return products; }
@@ -20,9 +22,12 @@ Product Catalog::getProductById(unsigned long id) const {
   }
 }
 
-Catalog &Catalog::updateProduct(unsigned long id, Product product) {
-  products.erase(id);
-  addProduct(product);
+Catalog &Catalog::updateProduct(Product const &product) {
+  if (!products.contains(product.getId())) {
+    throw std::runtime_error("Product not found");
+  }
+
+  products.insert_or_assign(product.getId(), product);
 
   return *this;
 }

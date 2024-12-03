@@ -113,6 +113,14 @@ public:
    * @return A reference to the order.
    */
   Order &removeProduct(Product const &product, unsigned quantity);
+
+  /**
+   * @brief Equality operator for Order.
+   *
+   * @param other The other Order to compare with.
+   * @return true if both orders have the same id, false otherwise.
+   */
+  bool operator==(Entity const &other) const override;
 };
 
 #endif // ORDER_HPP_

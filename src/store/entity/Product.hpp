@@ -66,6 +66,15 @@ public:
    * @throw std::invalid_argument if the price is less than the minimum price.
    */
   Product &setPrice(float price);
+
+  /**
+   * @brief Equality operator for Product.
+   *
+   * @param other The other Entity to compare with.
+   * @return true if both products have the same name and price, false
+   * otherwise.
+   */
+  bool operator==(Entity const &other) const override;
 };
 
 #endif // PRODUCT_HPP_

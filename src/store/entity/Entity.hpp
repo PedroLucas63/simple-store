@@ -39,7 +39,7 @@ public:
    * @param other The other Entity to compare with.
    * @return true if both entities have the same id, false otherwise.
    */
-  bool operator==(Entity const &other) const;
+  virtual bool operator==(Entity const &other) const;
 
   /**
    * @brief Hash function for Entity.

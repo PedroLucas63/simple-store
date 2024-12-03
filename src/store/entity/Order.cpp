@@ -62,3 +62,14 @@ void Order::removeProductQuantify(Product const &product, unsigned quantity) {
     orderItems.erase(product);
   }
 }
+
+bool Order::operator==(Entity const &other) const {
+  if (typeid(*this) == typeid(other)) {
+    Order const &otherOrder = static_cast<Order const &>(other);
+
+    return id == otherOrder.id && clientName == otherOrder.clientName &&
+           orderItems == otherOrder.orderItems;
+  }
+
+  return false;
+}

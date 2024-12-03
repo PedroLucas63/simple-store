@@ -35,9 +35,9 @@ public:
    * @brief Adds a product to the catalog.
    *
    * @param product The product to add.
-   * @return A reference to the catalog.
+   * @return The ID of the added product.
    */
-  Catalog &addProduct(Product product);
+  unsigned long addProduct(Product const &product);
 
   /**
    * @brief Retrieves all products in the catalog.
@@ -63,7 +63,7 @@ public:
    * @param product The updated product.
    * @return A reference to the catalog.
    */
-  Catalog &updateProduct(unsigned long id, Product product);
+  Catalog &updateProduct(Product const &product);
 
   /**
    * @brief Deletes a product from the catalog.

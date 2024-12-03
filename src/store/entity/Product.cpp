@@ -28,3 +28,14 @@ Product &Product::setPrice(float price) {
   this->price = price;
   return *this;
 }
+
+bool Product::operator==(Entity const &other) const {
+  if (typeid(*this) == typeid(other)) {
+    Product const &otherProduct = static_cast<Product const &>(other);
+
+    return id == otherProduct.id && name == otherProduct.name &&
+           price == otherProduct.price;
+  }
+
+  return false;
+}
