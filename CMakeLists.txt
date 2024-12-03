@@ -6,6 +6,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(SOURCE_DIR src)
 set(APP_DIR ${SOURCE_DIR}/store)
 
+# Adiciona o Google Test
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG v1.15.2
+)
+
+FetchContent_MakeAvailable(googletest)
+
 set(
    SOURCES 
    ${SOURCE_DIR}/main.cpp
@@ -16,6 +26,7 @@ set(
    ${APP_DIR}/view/View.cpp
    ${APP_DIR}/AppController.cpp
 )
+
 set(
    HEADERS 
    ${APP_DIR}/entity/Entity.hpp
@@ -26,4 +37,32 @@ set(
    ${APP_DIR}/AppController.hpp
 )
 
+# Adiciona o executável principal
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+
+# Adiciona os testes
+enable_testing()
+
+# Testes da aplicação
+add_executable(store_tests
+    tests/ProductTest.cpp
+    tests/OrderTest.cpp
+    tests/CatalogTest.cpp
+    ${APP_DIR}/entity/Entity.cpp
+    ${APP_DIR}/entity/Product.cpp
+    ${APP_DIR}/entity/Order.cpp
+    ${APP_DIR}/service/Catalog.cpp
+)
+
+# Linkar com Google Test
+target_link_libraries(store_tests gtest gtest_main)
+
+# Incluir diretórios de cabeçalhos
+target_include_directories(store_tests PUBLIC
+    ${APP_DIR}/entity
+    ${APP_DIR}/service
+    ${APP_DIR}/view
+)
+
+# Registra os testes
+add_test(NAME store_tests COMMAND store_tests)
