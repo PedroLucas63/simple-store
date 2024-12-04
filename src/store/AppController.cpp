@@ -1,4 +1,5 @@
 #include "AppController.hpp"
+#include "../utils/Input.hpp"
 #include "view/View.hpp"
 #include <iostream>
 #include <spdlog/spdlog.h>
@@ -88,11 +89,8 @@ void AppController::render() {
 bool AppController::exit() { return state == State::Ending; }
 
 void AppController::getMenuOption() {
-  std::string option;
-  std::getline(std::cin, option);
-
   try {
-    menuOption = std::stoi(option);
+    menuOption = Input::getInt();
   } catch (std::invalid_argument &e) {
     menuOption = -1;
     spdlog::error("Invalid menu option");
@@ -129,17 +127,13 @@ void AppController::updateStateFromMenuOption() {
 
 void AppController::addProduct() {
   int id;
-  std::string name, strPrice;
+  std::string name;
   float price;
 
-  std::cout << "Enter the name of the product: ";
-  std::getline(std::cin, name);
-
-  std::cout << "Enter the price of the product: $";
-  std::getline(std::cin, strPrice);
+  name = Input::getString("Enter the name of the product: ");
 
   try {
-    price = std::stof(strPrice);
+    price = Input::getFloat("Enter the price of the product: $");
 
     id = catalog.addProduct(Product(name, price));
 
@@ -151,13 +145,9 @@ void AppController::addProduct() {
 
 void AppController::removeProduct() {
   int id;
-  std::string strId;
-
-  std::cout << "Enter the id of the product to remove: ";
-  std::getline(std::cin, strId);
 
   try {
-    id = std::stoi(strId);
+    id = Input::getInt("Enter the id of the product to remove: ");
 
     catalog.deleteProduct(id);
 
@@ -168,13 +158,8 @@ void AppController::removeProduct() {
 }
 
 void AppController::getProductById() {
-  std::string strId;
-
-  std::cout << "Enter the id of the product: ";
-  std::getline(std::cin, strId);
-
   try {
-    productId = std::stoi(strId);
+    productId = Input::getInt("Enter the id of the product: ");
   } catch (std::invalid_argument &e) {
     spdlog::error("Invalid id: {}", e.what());
   }
@@ -191,10 +176,7 @@ void AppController::updateStateFromProductId() {
 }
 
 void AppController::addOrder() {
-  std::string clientName;
-
-  std::cout << "Enter the name of the client: ";
-  std::getline(std::cin, clientName);
+  std::string clientName = Input::getString("Enter the client name: ");
 
   try {
     Order order(clientName);
@@ -216,24 +198,19 @@ void AppController::addOrder() {
 void AppController::addProductsToOrder(Order &order) {
   int id;
   unsigned quantity;
-  std::string strId, strQuantity;
 
   do {
-    std::cout << "Enter the id of the product: ";
-    std::getline(std::cin, strId);
+    id = -1;
 
     try {
-      id = std::stoi(strId);
+      id = Input::getInt("Enter the id of the product (-1 to exit): ");
     } catch (std::invalid_argument &e) {
       spdlog::error("Invalid id: {}", e.what());
       continue;
     }
 
-    std::cout << "Enter the quantity: ";
-    std::getline(std::cin, strQuantity);
-
     try {
-      quantity = std::stoi(strQuantity);
+      quantity = Input::getInt("Enter the quantity of the product: ");
     } catch (std::invalid_argument &e) {
       spdlog::error("Invalid quantity: {}", e.what());
       continue;
@@ -244,5 +221,5 @@ void AppController::addProductsToOrder(Order &order) {
     } catch (std::runtime_error &e) {
       spdlog::error("Product not found: {}", e.what());
     }
-  } while (!strId.empty());
+  } while (id != -1);
 }

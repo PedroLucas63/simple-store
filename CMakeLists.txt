@@ -32,6 +32,7 @@ set(
    ${APP_DIR}/entity/Order.cpp
    ${APP_DIR}/service/Catalog.cpp
    ${APP_DIR}/view/View.cpp
+   ${SOURCE_DIR}/utils/Input.cpp
    ${APP_DIR}/AppController.cpp
 )
 
@@ -42,6 +43,7 @@ set(
    ${APP_DIR}/entity/Order.hpp
    ${APP_DIR}/service/Catalog.hpp
    ${APP_DIR}/view/View.hpp
+   ${SOURCE_DIR}/utils/Input.hpp
    ${APP_DIR}/AppController.hpp
 )
 
