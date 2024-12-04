@@ -14,7 +14,15 @@ FetchContent_Declare(
     GIT_TAG v1.15.2
 )
 
+# Adicionar spdlog
+FetchContent_Declare(
+  spdlog
+  GIT_REPOSITORY https://github.com/gabime/spdlog.git
+  GIT_TAG v1.15.0
+)
+
 FetchContent_MakeAvailable(googletest)
+FetchContent_MakeAvailable(spdlog)
 
 set(
    SOURCES 
@@ -40,6 +48,9 @@ set(
 # Adiciona o executável principal
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
+# Linkar com spdlog
+target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog)
+
 # Adiciona os testes
 enable_testing()
 
@@ -48,6 +59,7 @@ add_executable(store_tests
     tests/ProductTest.cpp
     tests/OrderTest.cpp
     tests/CatalogTest.cpp
+    tests/IntegrationTest.cpp
     ${APP_DIR}/entity/Entity.cpp
     ${APP_DIR}/entity/Product.cpp
     ${APP_DIR}/entity/Order.cpp

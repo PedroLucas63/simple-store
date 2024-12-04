@@ -10,6 +10,13 @@ private:
   enum State {
     Starting,
     Menu,
+    AddProduct,
+    RemoveProduct,
+    ListProducts,
+    GetProductById,
+    ViewProduct,
+    AddOrder,
+    ListOrders,
     Ending,
   };
 
@@ -20,9 +27,22 @@ private:
   std::vector<Order> orders;
 
   State state;
+  int menuOption;
+  long unsigned productId;
 
   AppController();
   ~AppController();
+
+  void getMenuOption();
+  void addProduct();
+  void removeProduct();
+  void getProductById();
+  void addOrder();
+
+  void addProductsToOrder(Order &order);
+
+  void updateStateFromProductId();
+  void updateStateFromMenuOption();
 
 public:
   AppController(AppController const &other) = delete;
