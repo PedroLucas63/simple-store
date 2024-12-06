@@ -24,9 +24,9 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 FetchContent_MakeAvailable(spdlog)
 
+# Arquivos-fonte compartilhados
 set(
    SOURCES 
-   ${SOURCE_DIR}/main.cpp
    ${APP_DIR}/entity/Entity.cpp
    ${APP_DIR}/entity/Product.cpp
    ${APP_DIR}/entity/Order.cpp
@@ -36,6 +36,7 @@ set(
    ${APP_DIR}/AppController.cpp
 )
 
+# Cabeçalhos compartilhados
 set(
    HEADERS 
    ${APP_DIR}/entity/Entity.hpp
@@ -47,36 +48,35 @@ set(
    ${APP_DIR}/AppController.hpp
 )
 
+# Biblioteca compartilhada
+add_library(store_lib ${SOURCES} ${HEADERS})
+
+# Linkar a biblioteca com spdlog
+target_link_libraries(store_lib PRIVATE spdlog::spdlog)
+
+# Diretórios de inclusão para a biblioteca
+target_include_directories(store_lib PUBLIC ${APP_DIR} ${SOURCE_DIR}/utils ${spdlog_SOURCE_DIR}/include)
+
 # Adiciona o executável principal
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+add_executable(${PROJECT_NAME} ${SOURCE_DIR}/main.cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE store_lib)
 
-# Linkar com spdlog
-target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog)
-
-# Adiciona os testes
+# Testes
 enable_testing()
 
-# Testes da aplicação
+# Adiciona o executável para os testes
 add_executable(store_tests
     tests/ProductTest.cpp
     tests/OrderTest.cpp
     tests/CatalogTest.cpp
     tests/IntegrationTest.cpp
-    ${APP_DIR}/entity/Entity.cpp
-    ${APP_DIR}/entity/Product.cpp
-    ${APP_DIR}/entity/Order.cpp
-    ${APP_DIR}/service/Catalog.cpp
 )
 
-# Linkar com Google Test
-target_link_libraries(store_tests gtest gtest_main)
+# Linkar os testes com as bibliotecas compartilhadas
+target_link_libraries(store_tests PRIVATE store_lib gtest gtest_main)
 
-# Incluir diretórios de cabeçalhos
-target_include_directories(store_tests PUBLIC
-    ${APP_DIR}/entity
-    ${APP_DIR}/service
-    ${APP_DIR}/view
-)
+# Diretórios de inclusão para os testes
+target_include_directories(store_tests PRIVATE ${spdlog_SOURCE_DIR}/include)
 
 # Registra os testes
 add_test(NAME store_tests COMMAND store_tests)

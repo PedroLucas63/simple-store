@@ -1,4 +1,5 @@
 #include "Order.hpp"
+#include <spdlog/spdlog.h>
 #include <stdexcept>
 
 Order::Order(std::string const &clientName) : totalPrice(INITIAL_TOTAL_PRICE) {
@@ -30,6 +31,7 @@ Order &Order::removeProduct(Product const &product, unsigned quantity) {
 }
 
 float Order::calculatePriceWithDiscount() const {
+  spdlog::debug("Calculating price with discount: {}", totalPrice);
   if (totalPrice > PRICE_TO_DISCOUNT) {
     return totalPrice * (1 - DISCOUNT);
   } else {

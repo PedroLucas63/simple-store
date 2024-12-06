@@ -25,6 +25,7 @@ void AppController::deleteInstance() {
 }
 
 void AppController::initialize() {
+  spdlog::set_level(spdlog::level::debug);
   spdlog::info("AppController initialized");
   state = State::Starting;
   currentOrderId = INITIAL_ID;
