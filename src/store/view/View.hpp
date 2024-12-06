@@ -22,12 +22,42 @@ public:
    */
   static void menu();
 
+  /**
+   * @brief Prints a product.
+   *
+   * @details Prints the product information to the console.
+   *
+   * @param product The product to print.
+   */
   static void printProduct(Product const &product);
 
+  /**
+   * @brief Prints a map of products.
+   *
+   * @details Prints all products information from the given map to the console.
+   *
+   * @param products The map of products to print.
+   */
   static void
   printProducts(std::unordered_map<unsigned long, Product> const &products);
 
+  /**
+   * @brief Prints an order.
+   *
+   * @details Prints the order information to the console.
+   *
+   * @param order The order to print.
+   */
   static void printOrder(Order const &order);
+
+  /**
+   * @brief Prints a vector of orders.
+   *
+   * @details Prints all orders information from the given vector to the
+   * console.
+   *
+   * @param orders The vector of orders to print.
+   */
   static void printOrders(std::vector<Order> const &orders);
 };
 
