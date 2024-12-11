@@ -25,7 +25,6 @@ void AppController::deleteInstance() {
 }
 
 void AppController::initialize() {
-  spdlog::set_level(spdlog::level::debug);
   spdlog::info("AppController initialized");
   state = State::Starting;
   currentOrderId = INITIAL_ID;
@@ -183,9 +182,7 @@ void AppController::addOrder() {
     Order order(clientName);
     order.setId(currentOrderId++);
 
-    addProductsToOrder(order);
-
-    if (order.getTotalPrice() > 0) {
+    if (addProductsToOrder(order) != 0) {
       orders.push_back(order);
       spdlog::info("Order added with id {}", order.getId());
     } else {
@@ -196,15 +193,17 @@ void AppController::addOrder() {
   }
 }
 
-void AppController::addProductsToOrder(Order &order) {
+int AppController::addProductsToOrder(Order &order) {
   int id;
   unsigned quantity;
+  int productsCount = 0;
 
   do {
     id = -1;
 
     try {
-      id = Input::getInt("Enter the id of the product (-1 to exit): ");
+      id = Input::getInt(
+          "Enter the id of the product (ENTER or NEGATIVE to exit): ");
     } catch (std::invalid_argument &e) {
       spdlog::error("Invalid id: {}", e.what());
       continue;
@@ -219,8 +218,11 @@ void AppController::addProductsToOrder(Order &order) {
 
     try {
       order.addProduct(catalog.getProductById(id), quantity);
+      productsCount++;
     } catch (std::runtime_error &e) {
       spdlog::error("Product not found: {}", e.what());
     }
-  } while (id != -1);
+  } while (id >= 0);
+
+  return productsCount;
 }

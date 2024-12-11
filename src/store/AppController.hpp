@@ -77,8 +77,9 @@ private:
    * @brief Adds products to an order.
    *
    * @param[in,out] order The order to add the products.
+   * @return The number of products added to the order.
    */
-  void addProductsToOrder(Order &order);
+  int addProductsToOrder(Order &order);
 
   /**
    * @brief Updates the state from the product ID.

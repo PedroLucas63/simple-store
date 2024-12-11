@@ -32,6 +32,7 @@ Order &Order::removeProduct(Product const &product, unsigned quantity) {
 
 float Order::calculatePriceWithDiscount() const {
   spdlog::debug("Calculating price with discount: {}", totalPrice);
+  
   if (totalPrice > PRICE_TO_DISCOUNT) {
     return totalPrice * (1 - DISCOUNT);
   } else {
