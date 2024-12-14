@@ -36,3 +36,7 @@ build
 
 # Vscode
 .vscode
+
+# Docs
+docs/html
+docs/man
