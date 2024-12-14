@@ -204,6 +204,10 @@ int AppController::addProductsToOrder(Order &order) {
     try {
       id = Input::getInt(
           "Enter the id of the product (ENTER or NEGATIVE to exit): ");
+
+      if (id < 0) {
+        break;
+      }
     } catch (std::invalid_argument &e) {
       spdlog::error("Invalid id: {}", e.what());
       continue;

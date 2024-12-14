@@ -120,7 +120,7 @@ public:
    * @param other The other Order to compare with.
    * @return true if both orders have the same id, false otherwise.
    */
-  bool operator==(Entity const &other) const override;
+  bool operator==(Order const &other) const;
 };
 
 #endif // ORDER_HPP_

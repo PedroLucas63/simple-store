@@ -32,7 +32,7 @@ Order &Order::removeProduct(Product const &product, unsigned quantity) {
 
 float Order::calculatePriceWithDiscount() const {
   spdlog::debug("Calculating price with discount: {}", totalPrice);
-  
+
   if (totalPrice > PRICE_TO_DISCOUNT) {
     return totalPrice * (1 - DISCOUNT);
   } else {
@@ -66,13 +66,7 @@ void Order::removeProductQuantify(Product const &product, unsigned quantity) {
   }
 }
 
-bool Order::operator==(Entity const &other) const {
-  if (typeid(*this) == typeid(other)) {
-    Order const &otherOrder = static_cast<Order const &>(other);
-
-    return id == otherOrder.id && clientName == otherOrder.clientName &&
-           orderItems == otherOrder.orderItems;
-  }
-
-  return false;
+bool Order::operator==(Order const &other) const {
+  return id == other.id && clientName == other.clientName &&
+         orderItems == other.orderItems;
 }

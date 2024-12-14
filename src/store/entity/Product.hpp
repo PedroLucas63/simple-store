@@ -70,11 +70,11 @@ public:
   /**
    * @brief Equality operator for Product.
    *
-   * @param other The other Entity to compare with.
+   * @param other The other Product to compare with.
    * @return true if both products have the same name and price, false
    * otherwise.
    */
-  bool operator==(Entity const &other) const override;
+  bool operator==(Product const &other) const;
 };
 
 #endif // PRODUCT_HPP_

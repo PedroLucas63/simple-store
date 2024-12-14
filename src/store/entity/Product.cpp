@@ -1,5 +1,6 @@
 #include "Product.hpp"
 #include <stdexcept>
+#include <typeinfo>
 
 Product::Product(std::string const &name, float price) {
   setName(name);
@@ -29,13 +30,6 @@ Product &Product::setPrice(float price) {
   return *this;
 }
 
-bool Product::operator==(Entity const &other) const {
-  if (typeid(*this) == typeid(other)) {
-    Product const &otherProduct = static_cast<Product const &>(other);
-
-    return id == otherProduct.id && name == otherProduct.name &&
-           price == otherProduct.price;
-  }
-
-  return false;
+bool Product::operator==(Product const &other) const {
+  return id == other.id && name == other.name && price == other.price;
 }
